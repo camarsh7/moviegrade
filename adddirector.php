@@ -39,9 +39,14 @@
 		<div class="u-full-width-dark">
 			<div class="container">
 				<h3 align="center">Add a Director!</h3>
-				<table class="u-full-width">		
-				
-					
+				<table class="u-full-width">
+                    <div align="center">
+                        <form align="center" action="adddirector.php" method="POST">
+                            Director Name: <input type="text" name="dname" required="required" /> <br/>
+                            Director ID: <input type="text" name="director_id" required="required" /> <br/>
+                        <input class="button button-1" type="submit" value="Add"/>
+                        </form>	
+                    </div>
 				</table>
 			</div>
 		</div>	
@@ -53,3 +58,36 @@
 		</div>
 	
 </html>
+
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+	$link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
+	
+	$director_id = mysqli_real_escape_string($link, $_POST['director_id']);
+    $dname = mysqli_real_escape_string($link, $_POST['dname']);
+	
+	$bool = true;
+	
+	mysqli_select_db($link, "movie_grade") or die("Cannot connect to database");
+	
+	$query = mysqli_query($link, "Select * from director");
+	
+	while($row = mysqli_fetch_array($query)) {
+		$table_director = $row['director_id'];
+		
+		if($director_id == $table_director) { //checks if the username is already found in the table
+			$bool = false;
+			Print '<script>alert("Director ID already in system!");</script>';
+			Print '<script>window.location.assign("adddirector.php");</script>';
+		}
+	}
+	
+	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
+		mysqli_query($link, "INSERT INTO director (director_id, dname) VALUES ('$director_id', '$dname')");
+		Print '<script>alert("Successfully Added!");</script>';
+		Print '<script>window.location.assign("adddirector.php");</script>';
+	}
+    echo "Director name entered: ". $dname . "<br/>";
+    echo "Director ID entered: ". $director_id . "<br/>";
+}
+?>
