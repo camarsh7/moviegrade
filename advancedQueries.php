@@ -19,12 +19,12 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
     $(function() {
-      $("#dataType").change(function() {
-        $("#interaction").load("textData/" + $(this).val() + ".html");
-        $("#retrieve").load("textData/" + $("#dataType").val() + "_" + $("#interaction").val() + ".html");
+      $("#initType").change(function() {
+        $("#interType").load("textData/" + $(this).val() + ".html");
+        $("#retrieve").load("textData/" + $("#initType").val() + "_" + $("#interType").val() + ".html");
       });
-      $("#interaction").change(function() {
-        $("#retrieve").load("textData/" + $("#dataType").val() + "_" + $("#interaction").val() + ".html");
+      $("#interType").change(function() {
+        $("#retrieve").load("textData/" + $("#initType").val() + "_" + $("#interType").val() + ".html");
       });
     });
     </script>
@@ -57,26 +57,26 @@
           <div align = "center">
             <form align = "center" action="advancedQueries.php" method="POST">
               <div align = "center">
-                Type: <select id = "dataType" name = "Data Type">               <!--selects the first table for query-->
+                Type: <select id = "initType" name = "Data Type">               <!--selects the first table for query-->
                   <option value = "default">No Selection</option>
-                  <option value = "actor">Actor</option>
-                  <option value = "director">Director</option>
-                  <option value = "movie">Movie</option>
-                  <option value = "review">Review</option>
-                  <option value = "user">User</option>
-                  <option value = "genre">Genre</option>
+                  <option name = "actor" value = "actor">Actor</option>
+                  <option name = "director" value = "director">Director</option>
+                  <option name = "movie" value = "movie">Movie</option>
+                  <option name = "review" value = "review">Review</option>
+                  <option name = "user" value = "user">User</option>
+                  <option name = "genre" value = "genre">Genre</option>
                 </select>
-                ID: <input type="text" name="_id" required="required" /> <br/>
+                ID: <input type="text" name="init_id" required="required" /> <br/>
               </div>
               <div align = "center">
-                Interaction: <select id = "interaction" name = "Interaction">   <!--selects the second table for query-->
+                Interacting Type: <select id = "interType" name = "interType">   <!--selects the second table for query-->
                   <option value = "default">Select a data type</option>
                 </select>
-                ID: <input type="text" name="_id" required="required" /> <br/>
+                ID: <input type="text" name="inter_id" required="required" /> <br/>
               </div>
               <div align = "center">
                 Data: <select id = "retrieve" name = "Data to Retrieve">        <!--selects the data retrievable-->
-                  <option value = "default">Select an interaction</option>
+                  <option value = "default">Select data to retrieve</option>
                 <input class="button button-1" type="submit" value="Run Query"/>
               </div>
             </form>
@@ -97,31 +97,28 @@
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
 
-	$director_id = mysqli_real_escape_string($link, $_POST['director_id']);
-    $dname = mysqli_real_escape_string($link, $_POST['dname']);
-
-	$bool = true;
+  $init_type = mysqli_real_escape_string($link, $_POST['initType']);
+  $init_id = mysqli_real_escape_string($link, $_POST['init_id']);
+  $inter_type = mysqli_real_escape_string($link, $_POST['interType']);
+  $inter_id = mysqli_real_escape_string($link, $_POST['inter_id']);
+  $retrieve = mysqli_real_escape_string($link, $_POST['retrieve']);
 
 	mysqli_select_db($link, "movie_grade") or die("Cannot connect to database");
 
-	$query = mysqli_query($link, "Select * from director");
+	$query = mysqli_query($link, $retrieve);                                                   //i think this should work...?
 
+  $i = 0;
 	while($row = mysqli_fetch_array($query)) {
-		$table_director = $row['director_id'];
-
-		if($director_id == $table_director) { //checks if the username is already found in the table
-			$bool = false;
-			Print '<script>alert("Director ID already in system!");</script>';
-			Print '<script>window.location.assign("adddirector.php");</script>';
-		}
+		$table_results[i] = $row;
+    $i = $i+1;                                                                 //again, i think....???????????
 	}
 
-	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
-		mysqli_query($link, "INSERT INTO director (director_id, dname) VALUES ('$director_id', '$dname')");
-		Print '<script>alert("Successfully Added!");</script>';
-		Print '<script>window.location.assign("adddirector.php");</script>';
-	}
-    echo "Director name entered: ". $dname . "<br/>";
-    echo "Director ID entered: ". $director_id . "<br/>";
-}
+//count the number of rows
+  $i = count($table_results);
+  if(i > 0){
+    $j = count($table_results[0]);
+  }else{
+    $j = 0;
+  }
+  }
 ?>
