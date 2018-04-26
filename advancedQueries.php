@@ -21,6 +21,7 @@
     $(function() {
       $("#dataType").change(function() {
         $("#interaction").load("textData/" + $(this).val() + ".html");
+        $("#retrieve").load("textData/" + $("#dataType").val() + "_" + $("#interaction").val() + ".html");
       });
       $("#interaction").change(function() {
         $("#retrieve").load("textData/" + $("#dataType").val() + "_" + $("#interaction").val() + ".html");
