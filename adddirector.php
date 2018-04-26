@@ -54,7 +54,7 @@
                         $director_col = "Director ID";
                         $link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
 
-                         echo "<table>";
+                         echo "<table class='u-full-width'>";
                          $query = mysqli_query($link, "Select * from director");
                          echo "<tr><td style='font-weight:bold'>" . "Director ID" . "</td><td style='font-weight:bold'>" . "Director Name" . "</td><tr>";
                          while($row = mysqli_fetch_array($query))
