@@ -48,6 +48,24 @@
                         </form>	
                     </div>
 				</table>
+                <div align="center">
+                    <table class="u-full-width">
+                        <?php
+                        $director_col = "Director ID";
+                        $link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
+
+                         echo "<table>";
+                         $query = mysqli_query($link, "Select * from director");
+                         echo "<tr><td style='font-weight:bold'>" . "Director ID" . "</td><td style='font-weight:bold'>" . "Director Name" . "</td><tr>";
+                         while($row = mysqli_fetch_array($query))
+                              {
+                              echo "<tr><td>" . $row['director_id'] . "</td><td> " . $row['dname'] . "</td></tr>";
+                              }
+                         echo "</table>";
+                         mysqli_close($link);
+                        ?>
+                    </table>
+                </div>
 			</div>
 		</div>	
 	</body>
