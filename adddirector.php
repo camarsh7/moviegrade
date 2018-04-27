@@ -102,7 +102,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
 		mysqli_query($link, "INSERT INTO director (director_id, dname) VALUES ('$director_id', '$dname')");
-		Print '<script>alert("Successfully Added!");</script>';
 		Print '<script>window.location.assign("adddirector.php");</script>';
 	}
     echo "Director name entered: ". $dname . "<br/>";
