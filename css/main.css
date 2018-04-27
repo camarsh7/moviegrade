@@ -239,6 +239,7 @@ input[type="button"].button-primary:focus {
   border-color: #1EAEDB; }
 
 
+
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 input[type="email"],
@@ -286,7 +287,7 @@ select:focus {
   outline: 0; }
 label,
 legend {
-  display: block;
+  display: block; 
   margin-bottom: .5rem;
   font-weight: 600; }
 fieldset {
@@ -299,7 +300,6 @@ label > .label-body {
   display: inline-block;
   margin-left: .5rem;
   font-weight: normal; }
-
 
 /* Lists
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
