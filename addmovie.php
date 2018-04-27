@@ -69,7 +69,18 @@
                                     }
                                 }
                               }
-                              echo "<tr><td>" . $row['movie_id'] . "</td><td> " . $row['title'] . "</td><td> " . $row['genre'] . "</td><td> " . $row['avg_ranging'] . "</td></tr>";
+                              $genre_id = $row['genre'];
+                              $sql = "SELECT gname FROM genre WHERE genre_id = '$genre_id'";
+
+                              if($stmt = mysqli_prepare($link, $sql)){
+                                if(mysqli_stmt_execute($stmt)){
+                                    $genrecontainer = mysqli_stmt_get_result($stmt);
+                                    while($genrerow = mysqli_fetch_array($genrecontainer)){
+                                        $genre = $genrerow['gname'];
+                                        echo "<tr><td>" . $row['movie_id'] . "</td><td> " . $row['title'] . "</td><td> " . $genre . "</td><td> " . $row['avg_ranging'] . "</td></tr>";
+                                    }
+                                }
+                              }
                               }
                          echo "</table>";
                          mysqli_close($link);
@@ -94,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$title = mysqli_real_escape_string($link, $_POST['title']);
     $genre = mysqli_real_escape_string($link, $_POST['genre']);
     $movie_id = mysqli_real_escape_string($link, $_POST['movie_id']);
-    $avg_ranging = 5;
+    $avg_ranging = 0;
 	
 	$bool = true;
 	
