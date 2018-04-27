@@ -51,7 +51,6 @@
                    <input type="text" name="comments" required="required" /> <br/>
                    <input class="button button-1" type="submit" value="Post Review"/>
                 </form>
-					
 				</div>
 			</div>
 		</div>	
