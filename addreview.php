@@ -39,16 +39,20 @@
 		<div class="u-full-width-dark">
 			<div class="container">
 				<h3 align="center">Add a Review!</h3>
-				<table class="u-full-width">		
+				<div class="row" align="center">	
 				<form action="addreview.php" method="POST">
-                   Review ID: <input type="text" name="review_id" required="required" /> <br/>
-                   Movie Title: <input type="text" name="title" required="required" /> <br/>
-                   Rating:<input type="text" name="rating" required="required" /> <br/>
-                   Comments: <input type="text" name="comments" required="required" /> <br/>
+                   <label> Review ID</label>
+                   <input type="text" name="review_id" required="required" /> <br/>
+                   <label>Movie Title</label>
+                   <input type="text" name="title" required="required" /> <br/>
+                   <label>Rating</label>
+                   <input type="text" name="rating" required="required" /> <br/>
+                   <label>Comments</label>
+                   <input type="text" name="comments" required="required" /> <br/>
                    <input class="button button-1" type="submit" value="Post Review"/>
                 </form>
 					
-				</table>
+				</div>
 			</div>
 		</div>	
 	</body>
