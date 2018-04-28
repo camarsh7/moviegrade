@@ -5,17 +5,17 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <title>MovieGrade | Add Director</title>
     </head>
-	
+
    <?php
 	   session_start(); //starts the session
-	   if($_SESSION['user']){ // checks if the user is logged in  
+	   if($_SESSION['user']){ // checks if the user is logged in
 	   }
 	   else{
 		  header("location: index.php"); // redirects if user is not logged in
 	   }
 	   $user = $_SESSION['user']; //assigns user value
    ?>
-   
+
     <body>
 		<div class="homeTitle">
 			<h1 align="center">MovieGrade</h1>
@@ -26,15 +26,16 @@
 			<a href="addmovie.php">Add Movie</a>
 			<a class="active" href="">Add Director</a>
 			<a href="addactor.php">Add Actor</a>
+      <a href="advancedQueries.php">Advanced Queries</a>
 			<div class="dropdown">
 				<div class="dropbtn"><?php Print "$user" ?></div>
 				<div class="dropdown-content">
 					<a href="">My account</a>
 					<a href="logout.php">Logout</a>
 				</div>
-			</div>			
+			</div>
 		</div>
-			
+
 
 		<div class="u-full-width-dark">
 			<div class="container">
@@ -45,7 +46,7 @@
                             Director Name: <input type="text" name="dname" required="required" /> <br/>
                             Director ID: <input type="text" name="director_id" required="required" /> <br/>
                         <input class="button button-1" type="submit" value="Add"/>
-                        </form>	
+                        </form>
                     </div>
 				</table>
                 <div align="center">
@@ -67,40 +68,42 @@
                     </table>
                 </div>
 			</div>
-		</div>	
+		</div>
 	</body>
-	
+
 		<div class="footer">
 			<h3 align="center">Footer</h3>
 			<h6 align="center">Copyright 2018 - Chase Marsh</h6>
 		</div>
-	
+
 </html>
 
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
-	
+
 	$director_id = mysqli_real_escape_string($link, $_POST['director_id']);
     $dname = mysqli_real_escape_string($link, $_POST['dname']);
-	
+
 	$bool = true;
-	
+
 	mysqli_select_db($link, "movie_grade") or die("Cannot connect to database");
-	
+
 	$query = mysqli_query($link, "Select * from director");
-	
+
 	while($row = mysqli_fetch_array($query)) {
 		$table_director = $row['director_id'];
+
 		$table_dname = $row['dname'];
 		
 		if($director_id == $table_director || $dname == $table_dname) { //checks if the username is already found in the table
+
 			$bool = false;
 			Print '<script>alert("Director ID or Director Name already in system!");</script>';
 			Print '<script>window.location.assign("adddirector.php");</script>';
 		}
 	}
-	
+
 	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
 		mysqli_query($link, "INSERT INTO director (director_id, dname) VALUES ('$director_id', '$dname')");
 		Print '<script>window.location.assign("adddirector.php");</script>';
