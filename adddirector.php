@@ -94,9 +94,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	while($row = mysqli_fetch_array($query)) {
 		$table_director = $row['director_id'];
 
-		if($director_id == $table_director) { //checks if the username is already found in the table
+		$table_dname = $row['dname'];
+		
+		if($director_id == $table_director || $dname == $table_dname) { //checks if the username is already found in the table
+
 			$bool = false;
-			Print '<script>alert("Director ID already in system!");</script>';
+			Print '<script>alert("Director ID or Director Name already in system!");</script>';
 			Print '<script>window.location.assign("adddirector.php");</script>';
 		}
 	}

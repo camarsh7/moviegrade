@@ -42,7 +42,7 @@
 				<h3 align="center">Add an Actor!</h3>
                 <form action="addactor.php" method="POST">
                     Actor full name: <input type="text" name="name" required="required" style="display: inline" /><!--Form with button next to it-->
-                    <input class="button button-1" type="submit" value="Add Actor"> <!-- Button used to add an actor from a form (1 text field)-->
+					<input class="button button-1" type="submit" value="Add Actor"> <!-- Button used to add an actor from a form (1 text field)-->
                 </form>
 				
                 <div align="center">
@@ -63,6 +63,8 @@
                               <tr>";
 
                         while ($row = mysqli_fetch_array($query)) {
+							
+							
                             echo "<tr>
                                     <td>" . $row['actor_id'] . "</td>
                                     <td>" . $row['aname'] . "</td>
@@ -102,6 +104,9 @@
         $query = mysqli_query($link, "Select * from actor");
         
         while($row = mysqli_fetch_array($query)) {
+			$table_actor = $row['actor_id'];
+			$table_aname = $row['dname'];
+						
             $get_ids = $row['actor_id'];
             
             while($actor_id == get_ids){
