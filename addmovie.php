@@ -43,7 +43,8 @@
                     <form align="center" action="addmovie.php" method="POST">
                         Movie ID: <input type="text" name="movie_id" required="required" /> <br/>
                         Movie Title: <input type="text" name="title" required="required" /> <br/>
-                        Movie Genre: <input type="text" name="genre" required="required" /> <br/>
+                        Movie Genre ID: <input type="text" name="genre" required="required" /> <br/>
+						Movie Director ID: <input type="text" name="director" required="required" /> <br/>
                     <input class="button button-1" type="submit" value="Add"/>
                     </form>	
                 </div>
@@ -105,6 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$title = mysqli_real_escape_string($link, $_POST['title']);
     $genre = mysqli_real_escape_string($link, $_POST['genre']);
     $movie_id = mysqli_real_escape_string($link, $_POST['movie_id']);
+	$director_id = mysqli_real_escape_string($link, $_POST['director']);
     $avg_ranging = 0;
 	
 	$bool = true;
@@ -125,7 +127,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
         mysqli_query($link, "INSERT INTO movie (movie_id, title, avg_ranging, genre) VALUES ('$movie_id', '$title', '$avg_ranging', '$genre')");
-        Print '<script>window.location.assign("addmovie.php");</script>';
+        mysqli_query($link, "INSERT INTO directs (movie_id, director_id) VALUES ('$movie_id', '$director_id')");
+		Print '<script>window.location.assign("addmovie.php");</script>';
 	}
 }
 ?>
