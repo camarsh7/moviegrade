@@ -49,6 +49,24 @@
                         </form>
                     </div>
 				</table>
+                <div align="center">
+                    <table class="u-full-width">
+                        <?php
+                        $director_col = "Director ID";
+                        $link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
+
+                         echo "<table class='u-full-width'>";
+                         $query = mysqli_query($link, "Select * from director");
+                         echo "<tr><td style='font-weight:bold'>" . "Director ID" . "</td><td style='font-weight:bold'>" . "Director Name" . "</td><tr>";
+                         while($row = mysqli_fetch_array($query))
+                              {
+                              echo "<tr><td>" . $row['director_id'] . "</td><td> " . $row['dname'] . "</td></tr>";
+                              }
+                         echo "</table>";
+                         mysqli_close($link);
+                        ?>
+                    </table>
+                </div>
 			</div>
 		</div>
 	</body>
@@ -85,7 +103,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
 		mysqli_query($link, "INSERT INTO director (director_id, dname) VALUES ('$director_id', '$dname')");
-		Print '<script>alert("Successfully Added!");</script>';
 		Print '<script>window.location.assign("adddirector.php");</script>';
 	}
     echo "Director name entered: ". $dname . "<br/>";
