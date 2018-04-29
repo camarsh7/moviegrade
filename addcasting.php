@@ -26,7 +26,7 @@
 			<a href="addmovie.php">Add Movie</a>
 			<a href="adddirector.php">Add Director</a>
       <a href="addactor.php">Add Actor</a>
-			<a class="active" href="">Add Casting</a>
+			<a class="active" href="">Casting</a>
       <a href="advancedQueries.php">Advanced Queries</a>
 			<div class="dropdown">
 				<div class="dropbtn"><?php Print "$user" ?></div>

@@ -378,7 +378,7 @@
 			<a href="addmovie.php">Add Movie</a>
 			<a href="adddirector.php">Add Director</a>
 			<a href="addactor.php">Add Actor</a>
-      <a href="addcasting.php">Add Casting</a>
+      <a href="addcasting.php">Casting</a>
       <a class="active" href="">Advanced Queries</a>
 			<div class="dropdown">
 				<div class="dropbtn"><?php Print "$user" ?></div>
@@ -393,6 +393,8 @@
 		<div class="u-full-width-dark">
 			<div class="container">
 				<h3 align="center">Find Information!</h3>
+        <h5 align="center">Use different combinations of tables to find data.</h5>
+        <h5 align="center">Inputting or omitting IDs will result in different queries.</h5>
 				<table class="u-full-width">
           <div align = "center">
             <form align = "center" action="advancedQueries.php" method="POST">
@@ -449,7 +451,7 @@
                 $query = mysqli_query($link, buildQuery($init_type, $init_id, $inter_type, $inter_id, $retrieve));
 
                 echo "<table class='u-full-width'>";
-                echo "<tr><td style='font-weight:bold'>" . "Director ID" . "</td><td style='font-weight:bold'>" . "Director Name" . "</td><tr>";
+                echo "<tr><td style='font-weight:bold'>" . $retrieve . "</td><tr>";
                 while($row = mysqli_fetch_array($query)){
                   echo "<tr><td>" . $row[0] . "</td><td> " . $row[1] . "</td><td>" . $row[2] . "</td></tr>";
                 }
