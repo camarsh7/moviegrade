@@ -152,9 +152,40 @@
               . " AND Actor.actor_id" . $init_prefix . $init_id . $init_postfix . ") AS t;";
             }
           }
-        }else if (strcmp($initType, "director") == 0){
-          if (strcmp($interType, "genre") == 0){
-            echo "director, genre";
+        }else if (strcmp($initType, "Director") == 0){
+          if (strcmp($interType, "Genre") == 0){
+            //echo "director, genre";
+            if(strcmp($retrieve, "Average Director Rating in a Genre") == 0){
+              return "SELECT dname, gname, SUM(avg_ranging)/COUNT(avg_ranging)"
+              . " FROM (SELECT Director.dname, Genre.gname, Movie.avg_ranging"
+              . " FROM Director, Directs, Movie, Genre"
+              . " WHERE Director.director_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Directs.director_id = Director.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.genre = Genre.genre_id"
+              . " AND Genre.genre_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }else if(strcmp($retrieve, "Number of Movies Directed in a Genre") == 0){
+              return "SELECT dname, gname, COUNT(movie_id)"
+              . " FROM (SELECT Director.dname, Genre.gname, Movie.movie_id"
+              . " FROM Director, Directs, Movie, Genre"
+              . " WHERE Director.director_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Directs.director_id = Director.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.genre = Genre.genre_id"
+              . " AND Genre.genre_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }else{
+              return "SELECT gname, genre_id, COUNT(director_id)"
+              . " FROM (SELECT Genre.gname, Genre.genre_id, Director.director_id"
+              . " FROM Director, Directs, Movie, Genre"
+              . " WHERE Director.director_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Directs.director_id = Director.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.genre = Genre.genre_id"
+              . " AND Genre.genre_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }
           }else if (strcmp($interType, "movie") == 0){
             echo "director, movie";
           }else if (strcmp($interType, "review") == 0){
