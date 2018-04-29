@@ -186,10 +186,42 @@
               . " AND Movie.genre = Genre.genre_id"
               . " AND Genre.genre_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
             }
-          }else if (strcmp($interType, "movie") == 0){
-            echo "director, movie";
-          }else if (strcmp($interType, "review") == 0){
-            echo "director, review";
+          }else if (strcmp($interType, "Movie") == 0){
+            //echo "director, movie";
+            if(strcmp($retrieve, "Director of a Movie") == 0){
+              return "SELECT title, movie_id, dname"
+              . " FROM (SELECT Director.dname, Movie.movie_id, Movie.title"
+              . " FROM Director, Directs, Movie"
+              . " WHERE Director.director_id = Directs.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }else{
+              return "SELECT dname, director_id, title"
+              . " FROM (SELECT Director.dname, Director.director_id, Movie.title"
+              . " FROM Director, Directs, Movie"
+              . " WHERE Director.director_id = Directs.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }
+          }else if (strcmp($interType, "Review") == 0){
+            //echo "director, review";
+            if(strcmp($retrieve, "Director Average Rating") == 0){
+              return "SELECT title, dname, SUM(avg_ranging)/COUNT(avg_ranging)"
+              . " FROM (SELECT Movie.title, Director.dname, Movie.avg_ranging"
+              . " FROM Movie, Director, Directs"
+              . " WHERE Directs.movie_id = Movie.movie_id"
+              . " AND Directs.director_id = Director.director_id"
+              . " AND Director.director_id" . $init_prefix . $init_id . $init_postfix . ") AS t;";
+            }else{
+              return "SELECT dname, review_id, review_rating"
+              . " FROM (SELECT Director.dname, Review.review_id, Review.review_rating"
+              . " FROM Director, Directs, Movie, Review"
+              . " WHERE Director.director_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Director.director_id = Directs.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id = Review.movie_id) AS t;";
+            }
           }else if (strcmp($interType, "user") == 0){
             echo "director, user";
           }
