@@ -334,9 +334,22 @@
               . " AND Movie.movie_id = Review.movie_id) AS t;";
             }
           }
-        }else if (strcmp($initType, "review") == 0){
-          if (strcmp($interType, "user") == 0){
-          echo "review, user";
+        }else if (strcmp($initType, "Review") == 0){
+          if (strcmp($interType, "User") == 0){
+            //echo "review, user";
+            if(strcmp($retrieve, "Reviews By A User") == 0){
+              return "SELECT user_id, title, review_rating"
+              . " FROM (SELECT Review.user_id, Movie.title, Review.review_rating"
+              . " FROM Review, Movie WHERE Review.user_id"
+              . $inter_prefix . $inter_id . $inter_postfix
+              . " AND Movie.movie_id = Review.movie_id) AS t;";
+            } else {
+              return "SELECT fname, lname, SUM(review_rating)/COUNT(review_rating)"
+              . " FROM (SELECT Users.fname, Users.lname, Review.review_rating"
+              . " FROM Review, Movie, Users WHERE Review.user_id"
+              . $inter_prefix . $inter_id . $inter_postfix
+              . " AND Review.user_id = Users.user_id) AS t;";
+            }
           }
         }
       }
