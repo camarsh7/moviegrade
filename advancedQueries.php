@@ -317,8 +317,22 @@
               . $init_prefix . $init_id . $init_postfix
               . " AND Movie.movie_id = Review.movie_id) AS t;";
             }
-          } else if (strcmp($interType, "user") == 0){
-            echo "movie, user";
+          } else if (strcmp($interType, "User") == 0){
+            //echo "movie, user";
+            if(strcmp($retrieve, "Reviews of a Movie by a User") == 0){
+              return "SELECT title, user_id, review_rating"
+              . " FROM (SELECT Movie.title, Review.review_rating, Review.user_id"
+              . " FROM Movie, Review WHERE Movie.movie_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Movie.movie_id = Review.movie_id"
+              . " AND Review.user_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }else{
+              return "SELECT user_id, title, review_id"
+              . " FROM (SELECT Review.user_id, Movie.title, Review.review_id"
+              . " FROM Review, Movie WHERE Movie.movie_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Movie.movie_id = Review.movie_id) AS t;";
+            }
           }
         }else if (strcmp($initType, "review") == 0){
           if (strcmp($interType, "user") == 0){
