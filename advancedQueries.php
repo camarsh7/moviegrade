@@ -222,8 +222,20 @@
               . " AND Directs.movie_id = Movie.movie_id"
               . " AND Movie.movie_id = Review.movie_id) AS t;";
             }
-          }else if (strcmp($interType, "user") == 0){
-            echo "director, user";
+          }else if (strcmp($interType, "User") == 0){
+            //echo "director, user";
+            if(strcmp($retrieve, "User Average Rating for a Director") == 0){
+              return "SELECT dname, user_id, SUM(review_rating)/COUNT(review_rating)"
+              . " FROM (SELECT Director.dname, Users.user_id, Review.review_rating"
+              . " FROM Director, Users, Review, Directs, Movie"
+              . " WHERE Director.director_id"
+              . $init_prefix .$init_id . $init_postfix
+              . " AND Director.director_id = Directs.director_id"
+              . " AND Directs.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id = Review.movie_id"
+              . " AND Review.user_id = Users.user_id"
+              . " AND Users.user_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }
           }
         }else if (strcmp($initType, "genre") == 0){
           if (strcmp($interType, "movie") == 0){
@@ -249,7 +261,7 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
-    
+
     $(function() {
       $("#initType").change(function() {
         $("#retrieve").load("textData/" + $("#initType").val() + $("#interType").val() + ".html");
