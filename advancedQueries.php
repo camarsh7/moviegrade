@@ -257,6 +257,28 @@
             }
           }else if (strcmp($interType, "Review") == 0){
             //echo "genre, review";
+            if(strcmp($retrieve, "Average Genre Rating") == 0){
+              return "SELECT gname, genre_id, SUM(review_rating)/COUNT(review_rating)"
+              . " FROM (SELECT Genre.gname, Genre.genre_id, Review.review_rating"
+              . " FROM Genre, Review, Movie WHERE Genre.genre_id"
+              . $init_prefix . $init_id . $init_postfix
+               . " AND Movie.genre = Genre.genre_id"
+               . " AND Movie.movie_id = Review.movie_id) AS t;";
+            }else if(strcmp($retrieve, "Reviews for a Genre") == 0){
+              return "SELECT review_id, gname, review_rating"
+              . " FROM (SELECT Genre.gname, Review.review_id, Review.review_rating"
+              . " FROM Genre, Review, Movie WHERE Genre.genre_id"
+              . $init_prefix . $init_id . $init_postfix
+               . " AND Movie.genre = Genre.genre_id"
+               . " AND Movie.movie_id = Review.movie_id) AS t;";
+            }else{
+              return "SELECT gname, genre_id, review_id"
+              . " FROM (SELECT Genre.gname, Genre.genre_id, Review.review_id"
+              . " FROM Genre, Review, Movie WHERE Genre.genre_id"
+              . $init_prefix . $init_id . $init_postfix
+               . " AND Movie.genre = Genre.genre_id"
+               . " AND Movie.movie_id = Review.movie_id) AS t;";
+            }
           }else if (strcmp($interType, "user") == 0){
             echo "genre, user";
           }
