@@ -48,7 +48,7 @@
 
         if(strcmp($initType, "Actor") == 0){
           if(strcmp($interType, "Director") == 0){
-            echo "Querying Actor, Director: ";
+            //echo "Querying Actor, Director: ";
             if(strcmp($retrieve, "Average Rating of Joint Projects") == 0){
               return "SELECT aname, dname, SUM(avg_ranging)/COUNT(avg_ranging)"
               . " FROM (SELECT Actor.aname, Director.dname, Movie.avg_ranging"
@@ -71,7 +71,7 @@
               . " Director.director_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
             }
           }else if (strcmp($interType, "Genre") == 0){
-            echo "Querying Actor, Genre: ";
+            //echo "Querying Actor, Genre: ";
             if(strcmp($retrieve, "Average Actor Rating in Genre") == 0){
               return "SELECT aname, gname, SUM(avg_ranging)/COUNT(avg_ranging)"
               . " FROM (SELECT Actor.aname, Genre.gname, Movie.avg_ranging"
@@ -91,7 +91,14 @@
               . " Movie.genre = Genre.genre_id AND"
               . " Genre.genre_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
             }else if(strcmp($retrieve, "All Genres for an Actor") == 0){
-              return "";
+              return "SELECT DISTINCT gname, genre_id, aname"
+              . " FROM (SELECT Genre.gname, Genre.genre_id, Actor.aname"
+              . " FROM Genre, Actor, Casts, Movie WHERE Genre.genre_id"
+              . $inter_prefix . $inter_id . $inter_postfix
+              . " AND Movie.genre = Genre.genre_id"
+              . " AND Movie.movie_id = Casts.movie_id"
+              . " AND Casts.actor_id = Actor.actor_id"
+              . " AND Actor.actor_id" . $init_prefix . $init_id . $init_postfix . ") AS t;";
             }
           }else if (strcmp($interType, "movie") == 0){
             echo "actor, movie";
