@@ -100,12 +100,57 @@
               . " AND Casts.actor_id = Actor.actor_id"
               . " AND Actor.actor_id" . $init_prefix . $init_id . $init_postfix . ") AS t;";
             }
-          }else if (strcmp($interType, "movie") == 0){
-            echo "actor, movie";
-          }else if (strcmp($interType, "review") == 0){
-            echo "actor, review";
-          }else if (strcmp($interType, "user") == 0){
-            echo "actor, user";
+          }else if (strcmp($interType, "Movie") == 0){
+            //echo "actor, movie";
+            if(strcmp($retrieve, "All Movies for an Actor") == 0){
+              return "SELECT aname, title, movie_id FROM"
+              . " (SELECT Actor.aname, Movie.title, Movie.movie_id FROM"
+              . " Actor, Movie, Casts WHERE Actor.actor_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Actor.actor_id = Casts.actor_id"
+              . " AND Casts.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }else{
+              return "SELECT aname, actor_id, title FROM"
+              . " (SELECT Actor.aname, Movie.title, Actor.actor_id FROM"
+              . " Actor, Movie, Casts WHERE Actor.actor_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Actor.actor_id = Casts.actor_id"
+              . " AND Casts.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }
+          }else if (strcmp($interType, "Review") == 0){
+            //echo "actor, review";
+            return "SELECT aname, actor_id, SUM(avg_ranging)/COUNT(avg_ranging)"
+            . " FROM (SELECT Actor.aname, Actor.actor_id, Movie.avg_ranging"
+            . " FROM Actor, Movie, Casts WHERE Actor.actor_id"
+            . $init_prefix . $init_id . $init_postfix
+            . " AND Actor.actor_id = Casts.actor_id"
+            . " AND Casts.movie_id = Movie.movie_id) AS t;";
+          }else if (strcmp($interType, "User") == 0){
+            //echo "actor, user";
+            if(strcmp($retrieve, "Average Actor Rating By A User") == 0){
+              return "SELECT user_id, aname,"
+              . " SUM(review_rating)/COUNT(review_rating)"
+              . " FROM (SELECT Users.user_id, Actor.aname, Review.review_rating"
+              . " FROM Users, Actor, Review, Movie, Casts WHERE Users.user_id"
+              . $inter_prefix . $inter_id . $inter_postfix
+              . " AND Review.user_id = Users.user_id"
+              . " AND Review.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id = Casts.movie_id"
+              . " AND Casts.actor_id = Actor.actor_id"
+              . " AND Actor.actor_id" . $init_prefix . $init_id . $init_postfix . ") AS t;";
+            }else{
+              return "SELECT user_id, aname, review_rating"
+              . " FROM (SELECT Users.user_id, Actor.aname, Review.review_rating"
+              . " FROM Users, Actor, Review, Movie, Casts WHERE Users.user_id"
+              . $inter_prefix . $inter_id . $inter_postfix
+              . " AND Review.user_id = Users.user_id"
+              . " AND Review.movie_id = Movie.movie_id"
+              . " AND Movie.movie_id = Casts.movie_id"
+              . " AND Casts.actor_id = Actor.actor_id"
+              . " AND Actor.actor_id" . $init_prefix . $init_id . $init_postfix . ") AS t;";
+            }
           }
         }else if (strcmp($initType, "director") == 0){
           if (strcmp($interType, "genre") == 0){
