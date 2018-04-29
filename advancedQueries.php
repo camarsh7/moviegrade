@@ -279,8 +279,27 @@
                . " AND Movie.genre = Genre.genre_id"
                . " AND Movie.movie_id = Review.movie_id) AS t;";
             }
-          }else if (strcmp($interType, "user") == 0){
-            echo "genre, user";
+          }else if (strcmp($interType, "User") == 0){
+            //echo "genre, user";
+            if(strcmp($retrieve, "User Reviews of Genre") == 0){
+              return "SELECT user_id, gname, COUNT(review_id)"
+              . " FROM (SELECT Users.user_id, Genre.gname, Review.review_id"
+              . " FROM Users, Genre, Review, Movie WHERE Genre.genre_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Genre.genre_id = Movie.genre"
+              . " AND Movie.movie_id = Review.movie_id"
+              . " AND Review.user_id = Users.user_id"
+              . " AND Users.user_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }else{
+              return "SELECT user_id, gname, SUM(review_rating)/COUNT(review_rating)"
+              . " FROM (SELECT Users.user_id, Genre.gname, Review.review_rating"
+              . " FROM Users, Genre, Review, Movie WHERE Genre.genre_id"
+              . $init_prefix . $init_id . $init_postfix
+              . " AND Genre.genre_id = Movie.genre"
+              . " AND Movie.movie_id = Review.movie_id"
+              . " AND Review.user_id = Users.user_id"
+              . " AND Users.user_id" . $inter_prefix . $inter_id . $inter_postfix . ") AS t;";
+            }
           }
         }else if (strcmp($initType, "movie") == 0){
           if (strcmp($interType, "review") == 0){
