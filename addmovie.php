@@ -26,6 +26,7 @@
 			<a class="active" href="">Add Movie</a>
 			<a href="adddirector.php">Add Director</a>
 			<a href="addactor.php">Add Actor</a>
+      <a href="addcasting.php">Add Casting</a>
       <a href="advancedQueries.php">Advanced Queries</a>
 			<div class="dropdown">
 				<div class="dropbtn"><?php Print "$user" ?></div>
@@ -47,7 +48,7 @@
                         Movie Genre ID: <input type="text" name="genre" required="required" /> <br/>
 						Movie Director ID: <input type="text" name="director" required="required" /> <br/>
                     <input class="button button-1" type="submit" value="Add"/>
-                    </form>	
+                    </form>
                 </div>
                 <div align="center">
                     <table class="u-full-width">
@@ -98,35 +99,35 @@
 			<h6 align="center">Copyright 2018 - Chase Marsh</h6>
 		</div>
 
-	
+
 </html>
 
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$link = mysqli_connect("127.0.0.1", "root", "", "movie_grade");
-	
+
 	$title = mysqli_real_escape_string($link, $_POST['title']);
     $genre = mysqli_real_escape_string($link, $_POST['genre']);
     $movie_id = mysqli_real_escape_string($link, $_POST['movie_id']);
 	$director_id = mysqli_real_escape_string($link, $_POST['director']);
     $avg_ranging = 0;
-	
+
 	$bool = true;
-	
+
 	mysqli_select_db($link, "movie_grade") or die("Cannot connect to database");
-	
+
 	$query = mysqli_query($link, "Select * from movie");
-	
+
 	while($row = mysqli_fetch_array($query)) {
 		$table_movie = $row['movie_id'];
-		
+
 		if($movie_id == $table_movie) { //checks if the username is already found in the table
 			$bool = false;
 			Print '<script>alert("Movie ID already in system!");</script>';
 			Print '<script>window.location.assign("addmovie.php");</script>';
 		}
 	}
-	
+
 	if($bool) { //if it wasn't taken, go ahead and do the insert of all the data.
         mysqli_query($link, "INSERT INTO movie (movie_id, title, avg_ranging, genre) VALUES ('$movie_id', '$title', '$avg_ranging', '$genre')");
         mysqli_query($link, "INSERT INTO directs (movie_id, director_id) VALUES ('$movie_id', '$director_id')");
@@ -134,4 +135,3 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 }
 ?>
-
