@@ -26,6 +26,7 @@
 			<a href="addmovie.php">Add Movie</a>
 			<a class="active" href="">Add Director</a>
 			<a href="addactor.php">Add Actor</a>
+      <a href="addcasting.php">Casting</a>
       <a href="advancedQueries.php">Advanced Queries</a>
 			<div class="dropdown">
 				<div class="dropbtn"><?php Print "$user" ?></div>
@@ -95,7 +96,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 		$table_director = $row['director_id'];
 
 		$table_dname = $row['dname'];
-		
+
 		if($director_id == $table_director || $dname == $table_dname) { //checks if the username is already found in the table
 
 			$bool = false;
